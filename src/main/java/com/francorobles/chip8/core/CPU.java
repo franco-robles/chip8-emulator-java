@@ -84,26 +84,43 @@ public class CPU {
         int pcPart2 = memory.read(pc);
         pc+=1;
         //tengo que unir ambos para fomar el opcode de 16 bits (2 bytes)
-        //muevo los valores del pcPart1 9 posiciones a la izquierda
+        //muevo los valores del pcPart1 8 posiciones a la izquierda
         pcPart1 <<= 8;
         int opcode =  pcPart1 | pcPart2; //esto une ambas parde del opcode
         return opcode;
     }
 
     public void decode(int opcode){
+        //en esta parte lo que hago es aislar los parametros del opcode
+        //0011 1010 0001 0101 byte ejemplo
+        int nnn = opcode & 0x0FFF;
+        int nn = opcode & 0x00FF;
+        int n = opcode & 0x000F;
+        int y = (opcode & 0x00F0) >> 4;
+        int x = (opcode & 0x0F00) >> 8;
         int instruccion = opcode & 0xF000;
+
         switch (instruccion){
             case 0x1000:
-                //pasa algo
-                System.out.println("Categoría: Salto JUMP");
+                //la instruccion uno me dice que tengo que asignar NNN al PC
+                pc = nnn;
+                System.out.println("JUMP: asigne al PC la dieccion NNN" );
                 break;
-            case 0xA000:
-                //pasa algo
-                System.out.println("Categoría: Setear registro I");
+            case 0x2000:
+                //saltar a una subrutina en a direccion NNN y guardo el PC en el stack donde diga el sp
+                stack[sp] = pc;
+                sp+=1;
+                pc = nnn;
+                System.out.println("CALL: guardo el pc en stack y salta a la subrutina en la direccion NNN");
                 break;
-            case 0xF000:
-                //pasa algo
-                System.out.println("Categoría: Sata a otra posicion");
+            case 0x0000:
+                //operacion invesa del CALL: devolvemos al punto anterios al hacer el call
+                if(opcode == 0x00EE){
+                    sp-=1;
+                    pc = stack[sp];
+                    System.out.println("RETURN: Sata a otra posicion");
+                }
+
                 break;
             default:
                 System.out.println("OPCODE no reconocido o no implementado");
