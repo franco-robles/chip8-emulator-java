@@ -90,4 +90,24 @@ public class CPU {
         return opcode;
     }
 
+    public void decode(int opcode){
+        int instruccion = opcode & 0xF000;
+        switch (instruccion){
+            case 0x1000:
+                //pasa algo
+                System.out.println("Categoría: Salto JUMP");
+                break;
+            case 0xA000:
+                //pasa algo
+                System.out.println("Categoría: Setear registro I");
+                break;
+            case 0xF000:
+                //pasa algo
+                System.out.println("Categoría: Sata a otra posicion");
+                break;
+            default:
+                System.out.println("OPCODE no reconocido o no implementado");
+        }
+
+    }
 }
