@@ -113,6 +113,31 @@ public class CPU {
                 pc = nnn;
                 System.out.println("CALL: guardo el pc en stack y salta a la subrutina en la direccion NNN");
                 break;
+            case 0x3000:
+                //Omite la siguiente instruccion si el registro V[x]==nn
+                if(v[x]==nn){pc+=2;}
+                System.out.println("Omite el siguiente instruccion si el registro V[x]==nn" );
+                break;
+            case 0x4000:
+                //Omite la siguiente instruccion si el registro V[x]!=nn
+                if(v[x]!=nn){pc+=2;}
+                System.out.println("Omite el siguiente instruccion si el registro V[x]!=nn" );
+                break;
+            case 0x6000:
+                //Asigna el valor nn al registro V[x]. (Ejemplo: V[x] = nn;)
+                v[x]=nn;
+                System.out.println(" V[x] = nn;" );
+                break;
+            case 0x7000:
+                //Le suma el valor nn al registro V[x]
+                v[x] = (v[x]+nn) & 0xFF;
+                System.out.println("Le suma el valor nn al registro V[x]" );
+                break;
+            case 0xA000:
+                // i==nn
+                i=nnn;
+                System.out.println("carga el registro i==nn" );
+                break;
             case 0x0000:
                 //operacion invesa del CALL: devolvemos al punto anterios al hacer el call
                 if(opcode == 0x00EE){
