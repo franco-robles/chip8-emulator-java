@@ -78,4 +78,16 @@ public class CPU {
 
     }
 
+    public int fetch(){
+        int pcPart1 = memory.read(pc);
+        pc+=1; //Muevo el PC una posicion adelante para compiar la segunda parte del opcode
+        int pcPart2 = memory.read(pc);
+        pc+=1;
+        //tengo que unir ambos para fomar el opcode de 16 bits (2 bytes)
+        //muevo los valores del pcPart1 9 posiciones a la izquierda
+        pcPart1 <<= 8;
+        int opcode =  pcPart1 | pcPart2; //esto une ambas parde del opcode
+        return opcode;
+    }
+
 }
