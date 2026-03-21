@@ -21,6 +21,13 @@ public class CPU {
     private int delayTimer;
     private int soundTimer;
 
+    //atributos para la pantalla
+    private int anchoDisplay = 64;
+    private int altoDisplay = 32;
+
+    //VRAM unidimensional
+    private int vram[];
+
     // Arreglo con los 80 bytes que representan los caracteres del 0 a la F
     private final int[] fontset = {
             0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
@@ -46,7 +53,7 @@ public class CPU {
         this.memory = new Memory();
         this.v = new int[16];
         this.stack =  new int[16];
-
+        this.vram = new int[2048];
         for(int j = 0; j <fontset.length; j++) {
             memory.write(j, (byte)fontset[j]);
         }
@@ -69,7 +76,10 @@ public class CPU {
         for(int j=0; j< stack.length; j++){
             stack[j]=0;
         }
-
+        //limpio la vram poniendo ceros
+        for(int j=0; j< vram.length; j++){
+            vram[j]=0;
+        }
         sp=0;
 
         // Reiniciamos timers
