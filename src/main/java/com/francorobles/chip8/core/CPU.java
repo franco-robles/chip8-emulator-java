@@ -203,7 +203,24 @@ public class CPU {
                     pc = stack[sp];
                     System.out.println("RETURN: Sata a otra posicion");
                 }
-
+                break;
+            case 0xD000:
+                v[0xF]=0;
+                for(int fila=0;fila<altoDisplay;fila++){
+                    int byteSprite = memory.read(this.i + fila); // no entendi bien porque i+fila
+                    for(int columna=0; columna<8;columna++){
+                        if((byteSprite & (0x80 >> columna)) != 0){
+                            //0000.0000 1000.0000
+                            int coordX = (v[x] + columna) % 64; // esto es para que siempre la coordenada este en rango
+                            int coordY = (v[y] + fila) % 32;// esto es para que siempre la coordenada este en rango
+                            int indice = coordX + (coordY*anchoDisplay);
+                            if(vram[indice]==1){
+                                v[0xF]=1;
+                            }
+                            vram[indice] ^= 1;
+                        }
+                    }
+                }
                 break;
             default:
                 System.out.println("OPCODE no reconocido o no implementado");
