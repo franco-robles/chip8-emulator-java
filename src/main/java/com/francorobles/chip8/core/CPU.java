@@ -62,7 +62,7 @@ public class CPU {
             v[i]=0;
         }
 
-        // ¡Dato crucial! Los juegos de CHIP-8 siempre empiezan en la dirección 0x200 (512)
+        // IMportante : Los juegos de CHIP-8 siempre empiezan en la dirección 0x200 (512)
         pc = 0x200;
 
         //limpiamos la pila
@@ -83,7 +83,7 @@ public class CPU {
         pc+=1; //Muevo el PC una posicion adelante para compiar la segunda parte del opcode
         int pcPart2 = memory.read(pc);
         pc+=1;
-        //tengo que unir ambos para fomar el opcode de 16 bits (2 bytes)
+        //tengo que unir ambos para formar el opcode de 16 bits (2 bytes)
         //muevo los valores del pcPart1 8 posiciones a la izquierda
         pcPart1 <<= 8;
         int opcode =  pcPart1 | pcPart2; //esto une ambas parde del opcode
@@ -124,15 +124,63 @@ public class CPU {
                 System.out.println("Omite el siguiente instruccion si el registro V[x]!=nn" );
                 break;
             case 0x6000:
-                //Asigna el valor nn al registro V[x]. (Ejemplo: V[x] = nn;)
+                //Asigna el valor nn al registro V[x].
                 v[x]=nn;
-                System.out.println(" V[x] = nn;" );
+                System.out.println(" V[x] = nn" );
                 break;
             case 0x7000:
                 //Le suma el valor nn al registro V[x]
                 v[x] = (v[x]+nn) & 0xFF;
                 System.out.println("Le suma el valor nn al registro V[x]" );
                 break;
+            case 0x8000:
+                switch(n){
+                    case 0x0000:
+                        v[x] = v[y]; //asignaicon
+                        break;
+                    case 0x0001: //OR bit a bit
+                        v[x] = v[x] | v[y];
+                        break;
+                    case 0x0002: //AND bit a bit
+                        v[x] = v[x] & v[y];
+                        break;
+                    case 0x0003://XOR bit a bit
+                        v[x] = v[x] ^ v[y];
+                        break;
+                    case 0x0004://Suma con Carry
+                        if(v[x] + v[y] > 255){
+                            v[0xF]=1;
+                        }else{
+                            v[0xF]=0;
+                        }
+                        v[x] = (v[x]+v[y]) & 0xFF;
+                        break;
+                    case 0x0005://Resta normal
+                        if (v[x]>v[y]) {
+                            v[0xF] = 1;
+                        }else{
+                            v[0xF] = 0;
+                        }
+                        v[x] = (v[x]-v[y]) & 0xFF;
+                        break;
+                    case 0x0006://Desplazar a la derecha - Shift Right// explicar mejor esto con un ejemplo
+                        v[0xF] = v[x] & 0x1;
+                        v[x] = v[x] >> 1;
+                        break;
+                    case 0x0007://Resta inversa
+                        if (v[y]>v[x]) {
+                            v[0xF] = 1;
+                        }else{
+                            v[0xF] = 0;
+                        }
+                        v[x] = (v[x]-v[y]) & 0xFF;
+                        break;
+                    case 0xE://Desplazar a la izquierda - Shift Left
+                        v[0xF] = (v[x] & 0x80) >> 7; // es 7 porque el bit mas significativo esta en la 8tava posicion y lo quiero al final
+                        v[x] = (v[x] << 1) & 0xFF;
+                        break;
+                }
+
             case 0xA000:
                 // i==nn
                 i=nnn;
