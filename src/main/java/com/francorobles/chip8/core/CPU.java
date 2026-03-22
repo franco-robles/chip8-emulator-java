@@ -58,6 +58,7 @@ public class CPU {
         this.vram = new int[2048];
         this.teclado = new boolean[16];
         for(int j = 0; j <fontset.length; j++) {
+            System.out.println("priera posicion leida"+ i);
             memory.write(j, (byte)fontset[j]);
         }
 
@@ -172,7 +173,7 @@ public class CPU {
                         v[x] = (v[x]+v[y]) & 0xFF;
                         break;
                     case 0x0005://Resta normal
-                        if (v[x]>v[y]) {
+                        if (v[x]>=v[y]) {
                             v[0xF] = 1;
                         }else{
                             v[0xF] = 0;
@@ -184,7 +185,7 @@ public class CPU {
                         v[x] = v[x] >> 1;
                         break;
                     case 0x0007://Resta inversa
-                        if (v[y]>v[x]) {
+                        if (v[y]>=v[x]) {
                             v[0xF] = 1;
                         }else{
                             v[0xF] = 0;
@@ -203,16 +204,20 @@ public class CPU {
                 System.out.println("carga el registro i==nn" );
                 break;
             case 0x0000:
-                //operacion invesa del CALL: devolvemos al punto anterios al hacer el call
-                if(opcode == 0x00EE){
-                    sp-=1;
+                if (opcode == 0x00E0) {
+                    // ¡Limpiar la pantalla! Llenamos la VRAM de ceros
+                    for (int j = 0; j < vram.length; j++) {
+                        vram[j] = 0;
+                    }
+                } else if (opcode == 0x00EE) {//operacion invesa del CALL: devolvemos al punto anterios al hacer el call
+                    // Retorno de subrutina (esto ya lo tenías)
+                    sp -= 1;
                     pc = stack[sp];
-                    System.out.println("RETURN: Sata a otra posicion");
                 }
                 break;
             case 0xD000:
                 v[0xF]=0;
-                for(int fila=0;fila<altoDisplay;fila++){
+                for(int fila=0;fila<n;fila++){
                     int byteSprite = memory.read(this.i + fila); // no entendi bien porque i+fila
                     for(int columna=0; columna<8;columna++){
                         if((byteSprite & (0x80 >> columna)) != 0){
@@ -315,5 +320,9 @@ public class CPU {
         if (soundTimer>0){
             this.soundTimer -=1;
         }
+    }
+    public void ciclo(){
+        int opcode = fetch();
+        decode(opcode);
     }
 }
