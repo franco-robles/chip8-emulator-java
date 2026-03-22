@@ -12,6 +12,7 @@ public class Memory {
     }
 
     public void write(int address, byte value){
+
         if(address>=0 && address<4096){
             this.ram[address] = value;
         }else{

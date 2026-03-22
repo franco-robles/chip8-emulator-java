@@ -29,13 +29,13 @@ public class Pantalla extends JPanel{
         protected void paintComponent(Graphics g) {
             // Siempre hay que llamar al super para que el panel limpie el fondo primero
             super.paintComponent(g);
-
-            for(int i=0; i<vram.length; i++){
+            g.setColor(Color.BLACK);
+            for(int j=0; j<vram.length; j++){
                 g.setColor(Color.BLACK);
-                if(vram[i]==1){
+                if(vram[j]==1){
                     g.setColor(Color.WHITE);
-                    int coordX = i % ANCHO_ORIGINAL;
-                    int coordY = i / ANCHO_ORIGINAL;
+                    int coordX = j % ANCHO_ORIGINAL;
+                    int coordY = j / ANCHO_ORIGINAL;
                     g.fillRect(coordX*ESCALA,coordY*ESCALA,ESCALA, ESCALA);
                 }
             }
