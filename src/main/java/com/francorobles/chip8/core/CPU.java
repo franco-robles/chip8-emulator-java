@@ -49,8 +49,8 @@ public class CPU {
     };
 
 
-    public CPU(){
-        this.memory = new Memory();
+    public CPU(Memory memory){
+        this.memory = memory;
         this.v = new int[16];
         this.stack =  new int[16];
         this.vram = new int[2048];
