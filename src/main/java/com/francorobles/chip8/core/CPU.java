@@ -68,8 +68,8 @@ public class CPU {
     // Método para reiniciar la máquina a su estado de fábrica
     public void reset(){
         // Limpiamos los registros
-        for(int i=0; i< v.length; i++){
-            v[i]=0;
+        for(int j=0; j< v.length; j++){
+            v[j]=0;
         }
 
         // IMportante : Los juegos de CHIP-8 siempre empiezan en la dirección 0x200 (512)
@@ -246,9 +246,9 @@ public class CPU {
                 switch (nn){
                     case 0x0A:
                         boolean teclaPresionada = false;
-                        for(int i=0; i<teclado.length; i++){
-                            if(teclado[i]){
-                                v[x]=i;
+                        for(int j=0; j<teclado.length; j++){
+                            if(teclado[j]){
+                                v[x]=j;
                                 teclaPresionada = true;
                                 break;
                             }
@@ -265,6 +265,27 @@ public class CPU {
                         break;
                     case 0x18:
                         soundTimer = v[x];
+                        break;
+                    case 0x1E:
+                        i += v[x];
+                        break;
+                    case 0x29:
+                        i = 5*v[x];
+                        break;
+                    case 0x33:
+                        memory.write(i, (byte) (v[x] / 100));// (Centenas)
+                        memory.write(i + 1, (byte)((v[x] / 10) % 10));//(Decenas)
+                        memory.write(i + 2, (byte)(v[x] % 10));// (Unidades)
+                        break;
+                    case 0x55:
+                        for(int j=0; j<=x; j++){
+                            memory.write(i+j,(byte)v[j]);
+                        }
+                        break;
+                    case 0x65:
+                        for(int j=0; j<=x; j++){
+                            v[j] = memory.read(i+j);
+                        }
                         break;
                 }
                 break;
