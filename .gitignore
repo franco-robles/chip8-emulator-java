@@ -12,6 +12,12 @@ target/
 *.iml
 *.ipr
 
+# Archivos compilados de Java
+*.class
+/out/
+/bin/
+/target/
+
 ### Eclipse ###
 .apt_generated
 .classpath
