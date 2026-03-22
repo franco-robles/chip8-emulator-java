@@ -4,6 +4,8 @@ Un emulador funcional de la máquina virtual CHIP-8 de los años 70, escrito com
 
 Este proyecto fue desarrollado para profundizar en la arquitectura de computadoras, el ciclo de instrucción (Fetch-Decode-Execute), el manejo de memoria y las operaciones a nivel de bits (*bitwise*), aplicando principios sólidos de Diseño Orientado a Objetos (OOP).
 
+![Captura del emulador CHIP-8 corriendo el juego Pong](assets/tetris.png)
+
 ## ✨ Características implementadas
 
 * **CPU Completa:** Emulación de los 35 opcodes originales del CHIP-8.
@@ -33,7 +35,7 @@ El proyecto está estructurado de manera modular para separar el hardware emulad
 1. Clona este repositorio:
    ```bash
    git clone [https://github.com/tu-usuario/chip8-emulator-java.git](https://github.com/tu-usuario/chip8-emulator-java.git)
-   ```
+   ```   
 2. Asegúrate de tener el **JDK 11** (o superior) instalado en tu sistema.
 3. Descarga una ROM pública de CHIP-8 (por ejemplo, `Pong.ch8`, `Tetris.ch8` o `IBM Logo.ch8`).
 4. En el archivo `Main.java`, actualiza la ruta hacia el archivo de la ROM:
