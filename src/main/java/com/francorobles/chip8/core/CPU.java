@@ -28,6 +28,8 @@ public class CPU {
     //VRAM unidimensional
     private int vram[];
 
+    private boolean[] teclado;
+
     // Arreglo con los 80 bytes que representan los caracteres del 0 a la F
     private final int[] fontset = {
             0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
@@ -54,6 +56,7 @@ public class CPU {
         this.v = new int[16];
         this.stack =  new int[16];
         this.vram = new int[2048];
+        this.teclado = new boolean[16];
         for(int j = 0; j <fontset.length; j++) {
             memory.write(j, (byte)fontset[j]);
         }
@@ -79,6 +82,9 @@ public class CPU {
         //limpio la vram poniendo ceros
         for(int j=0; j< vram.length; j++){
             vram[j]=0;
+        }
+        for(int j=0; j< teclado.length; j++){
+            teclado[j]=false;
         }
         sp=0;
 
@@ -228,9 +234,16 @@ public class CPU {
 
     }
 
-    //getter
+    //getter y mas
     public int[] getVram(){
         return this.vram;
     }
 
+    public void presionarTecla(int indiceTecla){
+        teclado[indiceTecla]=true;
+    }
+
+    public void soltarTecla(int indiceTecla){
+        teclado[indiceTecla]=false;
+    }
 }
