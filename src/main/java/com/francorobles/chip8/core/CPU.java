@@ -228,6 +228,37 @@ public class CPU {
                     }
                 }
                 break;
+            case 0xE000:
+                switch (nn){
+                    case 0x9E:
+                        if (teclado[v[x]]){
+                            pc+=2;
+                        }
+                        break;
+                    case 0xA1:
+                        if (!teclado[v[x]]){
+                            pc+=2;
+                        }
+                        break;
+                }
+                break;
+            case 0xF000:
+                switch (nn){
+                    case 0x0A:
+                        boolean teclaPresionada = false;
+                        for(int i=0; i<teclado.length; i++){
+                            if(teclado[i]){
+                                v[x]=i;
+                                teclaPresionada = true;
+                                break;
+                            }
+                        }
+                        if(!teclaPresionada){
+                            pc-=2;
+                        }
+                        break;
+                }
+                break;
             default:
                 System.out.println("OPCODE no reconocido o no implementado");
         }
