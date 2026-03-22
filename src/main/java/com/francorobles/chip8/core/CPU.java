@@ -17,7 +17,7 @@ public class CPU {
     private int[] stack;
     private int sp;
 
-    // Temporizadores (a 60Hz)
+    // Temporizadores (a 60Hz osea se resta en 1 a 60 veces por segundo)
     private int delayTimer;
     private int soundTimer;
 
@@ -257,6 +257,15 @@ public class CPU {
                             pc-=2;
                         }
                         break;
+                    case 0x07:
+                        v[x] = delayTimer;
+                        break;
+                    case 0x15:
+                        delayTimer = v[x];
+                        break;
+                    case 0x18:
+                        soundTimer = v[x];
+                        break;
                 }
                 break;
             default:
@@ -276,5 +285,14 @@ public class CPU {
 
     public void soltarTecla(int indiceTecla){
         teclado[indiceTecla]=false;
+    }
+
+    public void actualizarTimers(){
+        if (delayTimer>0){
+            this.delayTimer -=1;
+        }
+        if (soundTimer>0){
+            this.soundTimer -=1;
+        }
     }
 }
