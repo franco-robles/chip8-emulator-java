@@ -38,7 +38,7 @@ public class Main {
         // 1. Cargamos el cartucho (ROM)
         try {
             // Lee todos los bytes del archivo binario
-            byte[] rom = Files.readAllBytes(Paths.get("C:/Users/franco/Documents/EmuladorChip8/src/main/java/com/francorobles/chip8/roms/IBMLogo.ch8"));
+            byte[] rom = Files.readAllBytes(Paths.get("carpeta/chip8/roms/IBMLogo.ch8"));
 
             // 2. Inyectamos la ROM en la memoria de la CPU a partir de la posición 512 (0x200)
             for (int i = 0; i < rom.length; i++) {
