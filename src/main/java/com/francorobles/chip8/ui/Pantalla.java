@@ -31,16 +31,13 @@ public class Pantalla extends JPanel{
             super.paintComponent(g);
 
             for(int i=0; i<vram.length; i++){
+                g.setColor(Color.BLACK);
                 if(vram[i]==1){
                     g.setColor(Color.WHITE);
+                    int coordX = i % ANCHO_ORIGINAL;
+                    int coordY = i / ANCHO_ORIGINAL;
+                    g.fillRect(coordX*ESCALA,coordY*ESCALA,ESCALA, ESCALA);
                 }
-                int coordX = vram[i] % ANCHO_ORIGINAL;
-                int coordY = vram[i] / ANCHO_ORIGINAL;
-                g.fillRect(coordX*ESCALA,coordY*ESCALA,ESCALA, ESCALA);
             }
-
-            // ¡Aquí es donde ocurre la magia!
-            // Necesitamos recorrer tu arreglo unidimensional vram (los 2048 píxeles)
-            // y pintar un rectángulo blanco si el valor es 1.
         }
     }
