@@ -227,4 +227,10 @@ public class CPU {
         }
 
     }
+
+    //getter
+    public int[] getVram(){
+        return this.vram;
+    }
+
 }
