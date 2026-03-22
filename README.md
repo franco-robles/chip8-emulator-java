@@ -33,3 +33,29 @@ El proyecto está estructurado de manera modular para separar el hardware emulad
 1. Clona este repositorio:
    ```bash
    git clone [https://github.com/tu-usuario/chip8-emulator-java.git](https://github.com/tu-usuario/chip8-emulator-java.git)
+   ```
+2. Asegúrate de tener el **JDK 11** (o superior) instalado en tu sistema.
+3. Descarga una ROM pública de CHIP-8 (por ejemplo, `Pong.ch8`, `Tetris.ch8` o `IBM Logo.ch8`).
+4. En el archivo `Main.java`, actualiza la ruta hacia el archivo de la ROM:
+   ```java
+   byte[] rom = Files.readAllBytes(Paths.get("ruta/a/tu/juego.ch8")); 
+   ```
+5. Compila y ejecuta el proyecto desde tu IDE favorito o mediante línea de comandos.
+
+## 🎮 Controles
+
+El teclado original del CHIP-8 está mapeado a tu teclado físico de la siguiente manera:
+
+| CHIP-8 | Teclado Moderno |
+| :---: | :---: |
+| 1 2 3 C | 1 2 3 4 |
+| 4 5 6 D | Q W E R |
+| 7 8 9 E | A S D F |
+| A 0 B F | Z X C V |
+
+## 🧠 Aprendizajes clave
+
+Desarrollar este emulador me permitió consolidar mis conocimientos en:
+* Manipulación de bytes y enmascaramiento de bits (`&`, `|`, `^`, `<<`, `>>`).
+* Resolución de problemas de temporización al aislar la velocidad de la CPU (~700Hz) de la velocidad de refresco de pantalla y timers (60Hz).
+* Lectura e inyección de archivos binarios directamente en memoria.
